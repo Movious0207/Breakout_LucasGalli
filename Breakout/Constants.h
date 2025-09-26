@@ -1,4 +1,6 @@
 #pragma once
+#include <cmath>
+
 struct Block
 {
 	int positionX;
@@ -15,5 +17,5 @@ const int rectangleHeight = height / 100 * 4;
 const int blockCols = 11;
 const int blockRows = 5;
 
-const int blockWidth = width / 12;
-const int blockHeight = (height / 100) * 6;
+const float blockWidth = width / 12;
+const float blockHeight = (height / 100) * 6;

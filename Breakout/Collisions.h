@@ -1,8 +1,8 @@
 #pragma once
 #include "Constants.h"
 
-void ballCollision(int& circlePosX, int& circlePosY, int radius, Block& block, int& ballDirectionX, int& ballDirectionY);
+void ballCollision(float& circlePosX, float& circlePosY, int radius, Block& block, float& ballDirectionX, float& ballDirectionY);
 
-void paddleCollision(int circlePosX, int circlePosY, int rectanglePosX, int rectanglePosY, int radius, int& ballDirectionX, int& ballDirectionY);
+void paddleCollision(float circlePosX, float circlePosY, float rectanglePosX, float rectanglePosY, int radius, float& ballDirectionX, float& ballDirectionY);
 
-void wallCollision(int& circlePosX, int& circlePosY, int& rectanglePosX, bool& gameStart, int& ballDirectionX, int& ballDirectionY);
+void wallCollision(float& circlePosX, float& circlePosY, float& rectanglePosX, bool& gameStart, float& ballDirectionX, float& ballDirectionY);

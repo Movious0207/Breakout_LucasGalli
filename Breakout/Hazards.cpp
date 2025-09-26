@@ -1,6 +1,6 @@
 #include "Hazards.h"
 
-void blocks(Block block[blockRows][blockCols], int blueSprite, int& circlePosX, int& circlePosY, int radius, int& ballDirectionX, int& ballDirectionY)
+void blocks(Block block[blockRows][blockCols], int blueSprite, float& circlePosX, float& circlePosY, int radius, float& ballDirectionX, float& ballDirectionY)
 {
 	for (int i = 0; i < blockRows; i++)
 	{

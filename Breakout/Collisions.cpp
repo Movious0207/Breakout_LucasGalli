@@ -1,6 +1,6 @@
 #include "Collisions.h"
 
-void ballCollision(int& circlePosX, int& circlePosY, int radius, Block& block, int& ballDirectionX, int& ballDirectionY)
+void ballCollision(float& circlePosX, float& circlePosY, int radius, Block& block, float& ballDirectionX, float& ballDirectionY)
 {
 	if (!block.isBroken)
 	{
@@ -10,7 +10,7 @@ void ballCollision(int& circlePosX, int& circlePosY, int radius, Block& block, i
 			&& circlePosX > block.positionX - rectangleWidth / 2)
 		{
 			block.isBroken = true;
-			circlePosY -= 10;
+			circlePosY -= 15;
 			ballDirectionY *= -1;
 		}
 		else if (circlePosY - radius < block.positionY + rectangleHeight / 2
@@ -19,7 +19,7 @@ void ballCollision(int& circlePosX, int& circlePosY, int radius, Block& block, i
 			&& circlePosX > block.positionX - rectangleWidth / 2)
 		{
 			block.isBroken = true;
-			circlePosY += 10;
+			circlePosY += 15;
 			ballDirectionY *= -1;
 		}
 		if (circlePosX - radius < block.positionX + rectangleWidth / 2
@@ -28,7 +28,7 @@ void ballCollision(int& circlePosX, int& circlePosY, int radius, Block& block, i
 			&& circlePosY > block.positionY - rectangleHeight / 2)
 		{
 			block.isBroken = true;
-			circlePosX += 10;
+			circlePosX += 15;
 			ballDirectionX *= -1;
 		}
 		else if (circlePosX + radius < block.positionX + rectangleWidth / 2
@@ -37,13 +37,13 @@ void ballCollision(int& circlePosX, int& circlePosY, int radius, Block& block, i
 			&& circlePosY > block.positionY - rectangleHeight / 2)
 		{
 			block.isBroken = true;
-			circlePosX -= 10;
+			circlePosX -= 15;
 			ballDirectionX *= -1;
 		}
 	}
 }
 
-void paddleCollision(int circlePosX, int circlePosY, int rectanglePosX, int rectanglePosY, int radius, int& ballDirectionX, int& ballDirectionY)
+void paddleCollision(float circlePosX, float circlePosY, float rectanglePosX, float rectanglePosY, int radius, float& ballDirectionX, float& ballDirectionY)
 {
 	if (circlePosX + radius < rectanglePosX - rectangleWidth / 2
 		|| circlePosX - radius > rectanglePosX + rectangleWidth / 2
@@ -53,31 +53,25 @@ void paddleCollision(int circlePosX, int circlePosY, int rectanglePosX, int rect
 	}
 	else
 	{
-		//if (circlePosX > rectanglePosX )
-		//{
-		//	ballDirectionX = 1;
-		//}
-		//else
-		//{
-		//	ballDirectionX = -1;
-		//}
+		float distanceFromMiddle = (circlePosX - rectanglePosX) /  (rectangleWidth / 2);
 
-		//ballDirectionX = (circlePosX - rectanglePosX) / (rectangleWidth / 2);
+		ballDirectionX = distanceFromMiddle;
 
-		//ballDirectionX = (circlePosX - (rectanglePosX - rectangleWidth / 2)) / (circlePosX + (rectanglePosX - rectangleWidth / 2));
 		ballDirectionY = 1;
 	}
 }
 
-void wallCollision(int& circlePosX,int& circlePosY,int& rectanglePosX,bool& gameStart, int& ballDirectionX, int& ballDirectionY)
+void wallCollision(float& circlePosX, float& circlePosY, float& rectanglePosX,bool& gameStart, float& ballDirectionX, float& ballDirectionY)
 {
 	if (circlePosX > width - 10)
 	{
-		ballDirectionX = -1;
+		circlePosX -= 15;
+		ballDirectionX *= -1;
 	}
 	if (circlePosX < 0 + 10)
 	{
-		ballDirectionX = 1;
+		circlePosX += 15;
+		ballDirectionX *= -1;
 	}
 	if (circlePosY < 0 + 10)
 	{

@@ -6,18 +6,18 @@ int main()
 {
 	srand(time(nullptr));
 
-	int rectanglePosX = width / 2;
-	int rectanglePosY = 50;
+	float rectanglePosX = width / 2;
+	float rectanglePosY = 50;
 	bool gameStart = false;
 
-	int circlePosX = 0;
-	int circlePosY = 100;
+	float circlePosX = 0;
+	float circlePosY = 100;
 
 	int speed = 800;
 	int ballSpeed = 700;
 
-	int ballDirectionX = 1;
-	int ballDirectionY = 1;
+	float ballDirectionX = 1;
+	float ballDirectionY = 1;
 
 	int timer = 0;
 
