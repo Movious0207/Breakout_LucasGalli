@@ -1,0 +1,27 @@
+﻿  Collisions.cpp
+  Hazards.cpp
+  Main.cpp
+C:\Users\Lucas\Breakout_LucasGalli\Breakout\Main.cpp(7,12): warning C4244: 'argumento': conversión de 'time_t' a 'unsigned int'; posible pérdida de datos
+C:\Users\Lucas\Breakout_LucasGalli\Breakout\Main.cpp(30,50): warning C4244: '=': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\Lucas\Breakout_LucasGalli\Breakout\Main.cpp(31,51): warning C4244: '=': conversión de 'float' a 'int'; posible pérdida de datos
+C:\Users\Lucas\Breakout_LucasGalli\Breakout\Main.cpp(45,26): warning C4244: '+=': conversión de 'double' a 'int'; posible pérdida de datos
+C:\Users\Lucas\Breakout_LucasGalli\Breakout\Main.cpp(54,28): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Lucas\Breakout_LucasGalli\Breakout\Main.cpp(61,28): warning C4244: '-=': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Lucas\Breakout_LucasGalli\Breakout\Main.cpp(92,45): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
+C:\Users\Lucas\Breakout_LucasGalli\Breakout\Main.cpp(94,45): warning C4244: '+=': conversión de 'double' a 'float'; posible pérdida de datos
+  Generando código...
+Hazards.obj : error LNK2019: símbolo externo _slSetForeColor sin resolver al que se hace referencia en la función "void __cdecl blocks(struct Block (* const)[11],int,float &,float &,int,float &,float &)" (?blocks@@YAXQAY0L@UBlock@@HAAM1H11@Z)
+Main.obj : error LNK2001: símbolo externo _slSetForeColor sin resolver
+Hazards.obj : error LNK2019: símbolo externo _slRectangleFill sin resolver al que se hace referencia en la función "void __cdecl blocks(struct Block (* const)[11],int,float &,float &,int,float &,float &)" (?blocks@@YAXQAY0L@UBlock@@HAAM1H11@Z)
+Hazards.obj : error LNK2019: símbolo externo _slSprite sin resolver al que se hace referencia en la función "void __cdecl blocks(struct Block (* const)[11],int,float &,float &,int,float &,float &)" (?blocks@@YAXQAY0L@UBlock@@HAAM1H11@Z)
+Main.obj : error LNK2001: símbolo externo _slSprite sin resolver
+Main.obj : error LNK2019: símbolo externo _slWindow sin resolver al que se hace referencia en la función _main
+Main.obj : error LNK2019: símbolo externo _slClose sin resolver al que se hace referencia en la función _main
+Main.obj : error LNK2019: símbolo externo _slShouldClose sin resolver al que se hace referencia en la función _main
+Main.obj : error LNK2019: símbolo externo _slGetKey sin resolver al que se hace referencia en la función _main
+Main.obj : error LNK2019: símbolo externo _slGetDeltaTime sin resolver al que se hace referencia en la función _main
+Main.obj : error LNK2019: símbolo externo _slRender sin resolver al que se hace referencia en la función _main
+Main.obj : error LNK2019: símbolo externo _slSetBackColor sin resolver al que se hace referencia en la función _main
+Main.obj : error LNK2019: símbolo externo _slLoadTexture sin resolver al que se hace referencia en la función _main
+Main.obj : error LNK2019: símbolo externo _slCircleFill sin resolver al que se hace referencia en la función _main
+C:\Users\Lucas\Breakout_LucasGalli\Debug\Breakout.exe : fatal error LNK1120: 12 externos sin resolver

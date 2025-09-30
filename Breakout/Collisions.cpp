@@ -55,13 +55,16 @@ void paddleCollision(float circlePosX, float circlePosY, float rectanglePosX, fl
 	{
 		float distanceFromMiddle = (circlePosX - rectanglePosX) /  (rectangleWidth / 2);
 
-		ballDirectionX = distanceFromMiddle;
+		if (abs(distanceFromMiddle) > 0.3f)
+		{
+			ballDirectionX = distanceFromMiddle;
+		}
 
 		ballDirectionY = 1;
 	}
 }
 
-void wallCollision(float& circlePosX, float& circlePosY, float& rectanglePosX,bool& gameStart, float& ballDirectionX, float& ballDirectionY)
+void wallCollision(float& circlePosX, float& circlePosY, float& rectanglePosX,bool& gameStart, float& ballDirectionX, float& ballDirectionY, int& lives)
 {
 	if (circlePosX > width - 10)
 	{
@@ -79,6 +82,7 @@ void wallCollision(float& circlePosX, float& circlePosY, float& rectanglePosX,bo
 		circlePosX = rectanglePosX;
 		ballDirectionY = 1;
 		gameStart = false;
+		lives--;
 	}
 	if (circlePosY > height - 10)
 	{
