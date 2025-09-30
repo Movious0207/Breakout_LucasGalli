@@ -74,10 +74,12 @@ int main()
 	int menu = slLoadTexture("res/Menu.png");
 	int winScreen = slLoadTexture("res/winScreen.png");
 	int loseScreen = slLoadTexture("res/loseScreen.png");
+	int pauseScreen = slLoadTexture("res/Pause.png");
 	int playButton = slLoadTexture("res/PlayButton.png");
 	int credButton = slLoadTexture("res/CreditsButton.png");
 	int menuButton = slLoadTexture("res/MenuButton.png");
 	int quitButton = slLoadTexture("res/QuitButton.png");
+
 
 	while (!slShouldClose() && isRunning)
 	{
@@ -101,24 +103,24 @@ int main()
 				canPress = true;
 			}
 
-			if (slGetMouseButton(SL_MOUSE_BUTTON_LEFT) && mousePosX > (width / 2 - 20) - (blockWidth/2)
-				&& mousePosX < (width / 2 - 20) + (blockWidth/2)
+			if (slGetMouseButton(SL_MOUSE_BUTTON_LEFT) && mousePosX > (width / 2) - (blockWidth/2)
+				&& mousePosX < (width / 2) + (blockWidth/2)
 				&& mousePosY > (height / 2 - 20) - (blockHeight / 2) 
 				&& mousePosY < (height / 2 - 20 + blockHeight/2))
 			{
 				actualScreen = Screen::Game;
 			}
-			if (slGetMouseButton(SL_MOUSE_BUTTON_LEFT) && mousePosX > (width / 2 - 20 - blockWidth / 2) && canPress
-				&& mousePosX < (width / 2 - 20 + blockWidth / 2)
+			if (slGetMouseButton(SL_MOUSE_BUTTON_LEFT) && mousePosX > (width / 2 - blockWidth / 2) && canPress
+				&& mousePosX < (width / 2 + blockWidth / 2)
 				&& mousePosY >(height / 2 - blockWidth + 10 - blockHeight / 2)
 				&& mousePosY < (height / 2 - blockWidth + 10 + blockHeight / 2))
 			{
 				actualScreen = Screen::Credits;
 			}
-			if (slGetMouseButton(SL_MOUSE_BUTTON_LEFT) && mousePosX > (width / 2 - 20 - blockWidth / 2)
-				&& mousePosX < (width / 2 - 20 + blockWidth / 2)
-				&& mousePosY >(height / 2 - blockWidth * 2 + 40 - blockHeight / 2)
-				&& mousePosY < (height / 2 - blockWidth * 2 + 40 + blockHeight / 2))
+			if (slGetMouseButton(SL_MOUSE_BUTTON_LEFT) && mousePosX > (width / 2 - blockWidth / 2)
+				&& mousePosX < (width / 2 + blockWidth / 2)
+				&& mousePosY >((height / 2 - blockWidth * 2 + 40) - blockHeight / 2)
+				&& mousePosY < ((height / 2 - blockWidth * 2 + 40) + blockHeight / 2))
 			{
 				actualScreen = Screen::Quit;
 			}
@@ -268,18 +270,19 @@ int main()
 						canPress = false;
 					}
 
-					slSprite(playButton, width / 2 - 20, height / 2 - 20, blockWidth, blockHeight);
-					slSprite(menuButton, width / 2 - 20, height / 2 - blockWidth + 10, blockWidth, blockHeight);
+					slSprite(pauseScreen, width / 2, height / 2, width, height);
+					slSprite(playButton, width / 2, height / 2 - 20, blockWidth, blockHeight);
+					slSprite(menuButton, width / 2, height / 2 - blockWidth + 10, blockWidth, blockHeight);
 
-					if (slGetMouseButton(SL_MOUSE_BUTTON_LEFT) && mousePosX > (width / 2 - 20) - (blockWidth / 2)
-						&& mousePosX < (width / 2 - 20) + (blockWidth / 2)
+					if (slGetMouseButton(SL_MOUSE_BUTTON_LEFT) && mousePosX > (width / 2) - (blockWidth / 2)
+						&& mousePosX < (width / 2) + (blockWidth / 2)
 						&& mousePosY >(height / 2 - 20) - (blockHeight / 2)
 						&& mousePosY < (height / 2 - 20 + blockHeight / 2))
 					{
 						isPaused = false;
 					}
-					if (slGetMouseButton(SL_MOUSE_BUTTON_LEFT) && mousePosX > (width / 2 - 20 - blockWidth / 2)
-						&& mousePosX < (width / 2 - 20 + blockWidth / 2)
+					if (slGetMouseButton(SL_MOUSE_BUTTON_LEFT) && mousePosX > (width / 2 - blockWidth / 2)
+						&& mousePosX < (width / 2 + blockWidth / 2)
 						&& mousePosY >(height / 2 - blockWidth + 10 - blockHeight / 2)
 						&& mousePosY < (height / 2 - blockWidth + 10 + blockHeight / 2))
 					{
