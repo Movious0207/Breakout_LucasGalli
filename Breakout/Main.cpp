@@ -1,12 +1,16 @@
 #include <iostream>
 #include <ctime>
+#include <string>
 #include "Hazards.h"
+
+using namespace std;
 
 enum class Screen
 {
 	Menu,
 	Game,
-	Credits
+	Credits,
+	Quit
 };
 
 int main()
@@ -30,9 +34,13 @@ int main()
 	float mousePosY = 0;
 
 	bool gameOver = false;
+	bool isPaused = false;
+	bool canPress = true;
+	bool isRunning = true;
 
 	int lives = 5;
 
+	float time = 0;
 	int timer = 0;
 
 	Block block[blockRows][blockCols] = { {0} };
@@ -53,12 +61,25 @@ int main()
 
 	slWindow(width, height, "Breakout", false);
 
+	int font = slLoadFont("res/minecraft.ttf");
+	slSetFont(font, 30);
+
 	int barraSprite = slLoadTexture("res/barra.png");
 	int blueSprite = slLoadTexture("res/BlueBlock.png");
+	int redSprite = slLoadTexture("res/RedBlock.png");
+	int lBSprite = slLoadTexture("res/LightBlueBlock.png");
+	int yellowSprite = slLoadTexture("res/YellowBlock.png");
+	int greenSprite = slLoadTexture("res/GreenBlock.png");
 	int credits = slLoadTexture("res/Credits.png");
 	int menu = slLoadTexture("res/Menu.png");
+	int winScreen = slLoadTexture("res/winScreen.png");
+	int loseScreen = slLoadTexture("res/loseScreen.png");
+	int playButton = slLoadTexture("res/PlayButton.png");
+	int credButton = slLoadTexture("res/CreditsButton.png");
+	int menuButton = slLoadTexture("res/MenuButton.png");
+	int quitButton = slLoadTexture("res/QuitButton.png");
 
-	while (!slShouldClose() && !slGetKey(SL_KEY_ESCAPE))
+	while (!slShouldClose() && isRunning)
 	{
 		switch (actualScreen)
 		{
@@ -67,11 +88,18 @@ int main()
 			mousePosX = slGetMouseX();
 			mousePosY = slGetMouseY();
 
+			slSetForeColor(1, 1, 1, 1);
+
 			slSprite(menu, width / 2, height / 2, width, height);
 
-			slRectangleFill(width / 2 - 20, height / 2 - 20, blockWidth, blockHeight);
-			slRectangleFill(width / 2 - 20, height / 2 - blockWidth+10, blockWidth, blockHeight);
-			slRectangleFill(width / 2 - 20, height / 2 - blockWidth*2 + 40, blockWidth, blockHeight);
+			slSprite(playButton, width / 2, height / 2 - 20, blockWidth, blockHeight);
+			slSprite(credButton, width / 2, height / 2 - blockWidth+10, blockWidth, blockHeight);
+			slSprite(quitButton, width / 2, height / 2 - blockWidth*2 + 40, blockWidth, blockHeight);
+
+			if (!slGetMouseButton(SL_MOUSE_BUTTON_LEFT) && !slGetKey(SL_KEY_ESCAPE))
+			{
+				canPress = true;
+			}
 
 			if (slGetMouseButton(SL_MOUSE_BUTTON_LEFT) && mousePosX > (width / 2 - 20) - (blockWidth/2)
 				&& mousePosX < (width / 2 - 20) + (blockWidth/2)
@@ -80,7 +108,7 @@ int main()
 			{
 				actualScreen = Screen::Game;
 			}
-			if (slGetMouseButton(SL_MOUSE_BUTTON_LEFT) && mousePosX > (width / 2 - 20 - blockWidth / 2)
+			if (slGetMouseButton(SL_MOUSE_BUTTON_LEFT) && mousePosX > (width / 2 - 20 - blockWidth / 2) && canPress
 				&& mousePosX < (width / 2 - 20 + blockWidth / 2)
 				&& mousePosY >(height / 2 - blockWidth + 10 - blockHeight / 2)
 				&& mousePosY < (height / 2 - blockWidth + 10 + blockHeight / 2))
@@ -92,7 +120,12 @@ int main()
 				&& mousePosY >(height / 2 - blockWidth * 2 + 40 - blockHeight / 2)
 				&& mousePosY < (height / 2 - blockWidth * 2 + 40 + blockHeight / 2))
 			{
-				actualScreen = Screen::Credits;
+				actualScreen = Screen::Quit;
+			}
+
+			if (canPress && slGetKey(SL_KEY_ESCAPE))
+			{
+				isRunning = false;
 			}
 
 			slRender();
@@ -100,99 +133,197 @@ int main()
 			break;
 		case Screen::Game:
 
-			timer += slGetDeltaTime();
+			gameOver = false;
+			isPaused = false;
+			canPress = false;
 
-			slSetBackColor(0, 0, 0);
-			slSetForeColor(1, 1, 1, 1);
+			lives = 5;
+			timer = 0;
+			ballDirectionX = 1;
+			ballDirectionY = 1;
+			time = 0;
+			circlePosY = 100;
 
-			if (slGetKey(SL_KEY_RIGHT))
+			gameStart = false;
+
+			for (int i = 0; i < blockRows; i++)
 			{
-				if (rectanglePosX < width - (rectangleWidth / 2))
+				for (int j = 0; j < blockCols; j++)
 				{
-					rectanglePosX += speed * slGetDeltaTime();
+					block[i][j].positionX = (j * (blockWidth + 5) + ((width / 10) - 50));
+					block[i][j].positionY = (height - (height / 10)) - (i * (blockHeight + 5));
+					block[i][j].isBroken = false;
 				}
 			}
-			if (slGetKey(SL_KEY_LEFT))
+			while (actualScreen == Screen::Game)
 			{
-				if (rectanglePosX > 0 + (rectangleWidth / 2))
+				if (!gameOver && !isPaused)
 				{
-					rectanglePosX -= speed * slGetDeltaTime();
-				}
-			}
+					time += slGetDeltaTime();
+					timer = time;
 
-			blocks(block, blueSprite, circlePosX, circlePosY, radius, ballDirectionX, ballDirectionY);
+					slSetBackColor(0, 0, 0);
+					slSetForeColor(1, 1, 1, 1);
 
-			slSprite(barraSprite, rectanglePosX, rectanglePosY, rectangleWidth, rectangleHeight);
-
-			if (!gameStart)
-			{
-				slCircleFill(rectanglePosX, circlePosY, radius, 15);
-
-				circlePosX = rectanglePosX;
-
-				if (slGetKey(SL_KEY_UP))
-				{
-					gameStart = true;
 					if (slGetKey(SL_KEY_RIGHT))
 					{
-						ballDirectionX = 1;
+						if (rectanglePosX < width - (rectangleWidth / 2))
+						{
+							rectanglePosX += speed * slGetDeltaTime();
+						}
 					}
 					if (slGetKey(SL_KEY_LEFT))
 					{
-						ballDirectionX = -1;
+						if (rectanglePosX > 0 + (rectangleWidth / 2))
+						{
+							rectanglePosX -= speed * slGetDeltaTime();
+						}
 					}
-				}
-			}
-			else
-			{
-				slCircleFill(circlePosX, circlePosY, radius, 15);
 
-				circlePosX += ballSpeed * ballDirectionX * slGetDeltaTime();
+					blocks(block, circlePosX, circlePosY, radius, ballDirectionX, ballDirectionY,blueSprite, redSprite, lBSprite, yellowSprite, greenSprite);
 
-				circlePosY += ballSpeed * ballDirectionY * slGetDeltaTime();
-			}
+					slSprite(barraSprite, rectanglePosX, rectanglePosY, rectangleWidth, rectangleHeight);
 
-			wallCollision(circlePosX, circlePosY, rectanglePosX, gameStart, ballDirectionX, ballDirectionY, lives);
-
-			paddleCollision(circlePosX, circlePosY, rectanglePosX, rectanglePosY, radius, ballDirectionX, ballDirectionY);
-
-			if (slGetKey(' '))
-			{
-				actualScreen = Screen::Menu;
-			}
-
-			gameOver = true;
-			for (int rows = 0; rows < blockRows; rows++)
-			{
-				for (int cols = 0; cols < blockCols; cols++)
-				{
-					if (!block[rows][cols].isBroken)
+					if (!gameStart)
 					{
-						gameOver = false;
+						slCircleFill(rectanglePosX, circlePosY, radius, 15);
+
+						circlePosX = rectanglePosX;
+
+						if (slGetKey(SL_KEY_UP))
+						{
+							gameStart = true;
+							if (slGetKey(SL_KEY_RIGHT))
+							{
+								ballDirectionX = 1;
+							}
+							if (slGetKey(SL_KEY_LEFT))
+							{
+								ballDirectionX = -1;
+							}
+						}
 					}
+					else
+					{
+						slCircleFill(circlePosX, circlePosY, radius, 15);
+
+						circlePosX += ballSpeed * ballDirectionX * slGetDeltaTime();
+
+						circlePosY += ballSpeed * ballDirectionY * slGetDeltaTime();
+					}
+
+					wallCollision(circlePosX, circlePosY, rectanglePosX, gameStart, ballDirectionX, ballDirectionY, lives);
+
+					paddleCollision(circlePosX, circlePosY, rectanglePosX, rectanglePosY, radius, ballDirectionX, ballDirectionY);
+
+					if (!slGetKey(SL_KEY_ESCAPE))
+					{
+						canPress = true;
+					}
+					if (slGetKey(SL_KEY_ESCAPE) && canPress)
+					{
+						isPaused = true;
+						canPress = false;
+					}
+
+					gameOver = true;
+					for (int rows = 0; rows < blockRows; rows++)
+					{
+						for (int cols = 0; cols < blockCols; cols++)
+						{
+							if (!block[rows][cols].isBroken)
+							{
+								gameOver = false;
+							}
+						}
+					}
+
+					if (lives <= 0)
+					{
+						gameOver = true;
+					}
+
+					string timerText = "Timer: " + to_string(timer);
+					slText(0, height-30, timerText.c_str());
+
+					string liveText = "Lives: " + to_string(lives);
+					slText(150, height - 30, liveText.c_str());
+
+
+					slRender();
+				}
+				else if (!gameOver && isPaused)
+				{
+
+					mousePosX = slGetMouseX();
+					mousePosY = slGetMouseY();
+
+					if (!slGetKey(SL_KEY_ESCAPE))
+					{
+						canPress = true;
+					}
+					if (slGetKey(SL_KEY_ESCAPE) && canPress)
+					{
+						isPaused = false; 
+						canPress = false;
+					}
+
+					slSprite(playButton, width / 2 - 20, height / 2 - 20, blockWidth, blockHeight);
+					slSprite(menuButton, width / 2 - 20, height / 2 - blockWidth + 10, blockWidth, blockHeight);
+
+					if (slGetMouseButton(SL_MOUSE_BUTTON_LEFT) && mousePosX > (width / 2 - 20) - (blockWidth / 2)
+						&& mousePosX < (width / 2 - 20) + (blockWidth / 2)
+						&& mousePosY >(height / 2 - 20) - (blockHeight / 2)
+						&& mousePosY < (height / 2 - 20 + blockHeight / 2))
+					{
+						isPaused = false;
+					}
+					if (slGetMouseButton(SL_MOUSE_BUTTON_LEFT) && mousePosX > (width / 2 - 20 - blockWidth / 2)
+						&& mousePosX < (width / 2 - 20 + blockWidth / 2)
+						&& mousePosY >(height / 2 - blockWidth + 10 - blockHeight / 2)
+						&& mousePosY < (height / 2 - blockWidth + 10 + blockHeight / 2))
+					{
+						actualScreen = Screen::Menu;
+						canPress = false;
+					}
+
+					slRender();
+				}
+				else
+				{
+					if (lives <= 0)
+					{
+						slSprite(loseScreen, width / 2, height / 2, width, height);
+					}
+					else
+					{
+						slSprite(winScreen, width / 2, height / 2, width, height);
+					}
+					if (slGetKey(SL_KEY_ESCAPE))
+					{
+						actualScreen = Screen::Menu;
+						canPress = false;
+					}
+					slRender();
 				}
 			}
-
-			if (lives <= 0)
-			{
-				gameOver = true;
-			}
-
-			slRender();
+			
 		
 			break;
 		case Screen::Credits:
 			while (actualScreen == Screen::Credits)
 			{
 				slSprite(credits, width/2, height/2, width, height);
-				if (slGetKey(' '))
+				if (slGetKey(SL_KEY_ESCAPE))
 				{
 					actualScreen = Screen::Menu;
+					canPress = false;
 				}
 				slRender();
 			}
 			break;
 		default:
+			slClose();
 			break;
 		}
 

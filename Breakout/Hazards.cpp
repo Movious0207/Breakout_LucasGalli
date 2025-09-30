@@ -1,6 +1,6 @@
 #include "Hazards.h"
 
-void blocks(Block block[blockRows][blockCols], int blueSprite, float& circlePosX, float& circlePosY, int radius, float& ballDirectionX, float& ballDirectionY)
+void blocks(Block block[blockRows][blockCols], float& circlePosX, float& circlePosY, int radius, float& ballDirectionX, float& ballDirectionY, int blueSprite, int redSprite, int lbSprite, int yellowSprite, int greenSprite)
 {
 	for (int i = 0; i < blockRows; i++)
 	{
@@ -14,11 +14,11 @@ void blocks(Block block[blockRows][blockCols], int blueSprite, float& circlePosX
 					{
 					case 0:
 						slSetForeColor(1, 0.1, 0, 1);
-						slRectangleFill(block[i][j].positionX, block[i][j].positionY, blockWidth, blockHeight);
+						slSprite(redSprite, block[i][j].positionX, block[i][j].positionY, blockWidth, blockHeight);
 						break;
 					case 1:
 						slSetForeColor(0, 1, 0, 0.5);
-						slRectangleFill(block[i][j].positionX, block[i][j].positionY, blockWidth, blockHeight);
+						slSprite(greenSprite, block[i][j].positionX, block[i][j].positionY, blockWidth, blockHeight);
 						break;
 					case 2:
 						slSetForeColor(0, 0, 1, 1);
@@ -26,11 +26,11 @@ void blocks(Block block[blockRows][blockCols], int blueSprite, float& circlePosX
 						break;
 					case 3:
 						slSetForeColor(1, 1, 0, 0.5);
-						slRectangleFill(block[i][j].positionX, block[i][j].positionY, blockWidth, blockHeight);
+						slSprite(yellowSprite, block[i][j].positionX, block[i][j].positionY, blockWidth, blockHeight);
 						break;
 					case 4:
 						slSetForeColor(0, 1, 1, 0.9);
-						slRectangleFill(block[i][j].positionX, block[i][j].positionY, blockWidth, blockHeight);
+						slSprite(lbSprite, block[i][j].positionX, block[i][j].positionY, blockWidth, blockHeight);
 						break;
 					default:
 						break;
@@ -42,11 +42,11 @@ void blocks(Block block[blockRows][blockCols], int blueSprite, float& circlePosX
 					{
 					case 0:
 						slSetForeColor(1, 0.1, 0, 0.5);
-						slRectangleFill(block[i][j].positionX, block[i][j].positionY, blockWidth, blockHeight);
+						slSprite(redSprite, block[i][j].positionX, block[i][j].positionY, blockWidth, blockHeight);
 						break;
 					case 1:
 						slSetForeColor(0, 1, 0, 1);
-						slRectangleFill(block[i][j].positionX, block[i][j].positionY, blockWidth, blockHeight);
+						slSprite(greenSprite, block[i][j].positionX, block[i][j].positionY, blockWidth, blockHeight);
 						break;
 					case 2:
 						slSetForeColor(0, 0, 1, 0.8);
@@ -54,11 +54,11 @@ void blocks(Block block[blockRows][blockCols], int blueSprite, float& circlePosX
 						break;
 					case 3:
 						slSetForeColor(1, 1, 0, 1);
-						slRectangleFill(block[i][j].positionX, block[i][j].positionY, blockWidth, blockHeight);
+						slSprite(yellowSprite, block[i][j].positionX, block[i][j].positionY, blockWidth, blockHeight);
 						break;
 					case 4:
 						slSetForeColor(0, 1, 1, 0.5);
-						slRectangleFill(block[i][j].positionX, block[i][j].positionY, blockWidth, blockHeight);
+						slSprite(lbSprite, block[i][j].positionX, block[i][j].positionY, blockWidth, blockHeight);
 						break;
 					default:
 						break;

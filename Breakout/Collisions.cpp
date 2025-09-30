@@ -55,6 +55,15 @@ void paddleCollision(float circlePosX, float circlePosY, float rectanglePosX, fl
 	{
 		float distanceFromMiddle = (circlePosX - rectanglePosX) /  (rectangleWidth / 2);
 
+		if (distanceFromMiddle > 1)
+		{
+			distanceFromMiddle = 1;
+		}
+		else if (distanceFromMiddle < -1)
+		{
+			distanceFromMiddle = -1;
+		}
+
 		if (abs(distanceFromMiddle) > 0.3f)
 		{
 			ballDirectionX = distanceFromMiddle;

@@ -8,7 +8,7 @@ struct Block
 	bool isBroken;
 };
 
-const int width = 1440;
+const int width = 1240;
 const int height = 800;
 
 const int rectangleWidth = width / 10 + 8;
